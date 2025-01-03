@@ -9,4 +9,4 @@ async function MySql(){
   return pool
 }
 
-moduele.exports = MySql
+module.exports = MySql
