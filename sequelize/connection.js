@@ -1,12 +1,5 @@
-const mysql = require("mysql2")
+const { Sequelize } = require("sequelize");
 
-async function MySql(){
-  const connection = await mysql.createPool({
-    uri: "mysql://root:OgUqmWhavfiibStHCCAIQKpcLPFGUsYy@junction.proxy.rlwy.net:48810/railway"
-  })
+const db = new Sequelize("mysql://root:OgUqmWhavfiibStHCCAIQKpcLPFGUsYy@junction.proxy.rlwy.net:48810/railway")
 
-  const pool = connection.promise()
-  return pool
-}
-
-moduele.exports = MySql
+module.exports = db;
