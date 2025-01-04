@@ -27,12 +27,35 @@ app.get("/", async(req, res)=>{
     if(user===null){
       res.redirect("/login")
     }else{
-      res.render("home")
+      res.render("home", { subtitle: "- Sua plataforma de notícias e conteudos relacionados á Tecnologia e Informação" })
     }
   }catch(error){
     res.status(500).send("INTERNAL SERVER ERROR")
   }
 })
 app.get('/login', async(req, res)=>{
-  res.render('login', { subtitle: "- Login" })
+  const ip = await Ip()
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+  if(user === null){
+    res.render('login', { subtitle: "- Login" })
+  }else{
+    res.redirect('/')
+  }
+})
+app.get("/cadastro", async(req, res)=>{
+  const ip = await Ip()
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+  if(user === null){
+    res.render("cadastro", { subtitle: "- Cadastrar novo usuario" })
+  }else{
+    res.redirect('/')
+  }
 })
