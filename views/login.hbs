@@ -1,0 +1,22 @@
+<div class="container p-4">
+  <form action="/login" method="post" class="container">
+    {{{notify}}}
+    <h2>
+      Login
+    </h2>
+    <div class="mb-3">
+      <label for="email" class="form-label">Seu Email<strong class="text-danger">*</strong></label>
+      <input type="email" class="form-control" id="email" name="email" placeholder="exemplo@email.com" required>
+    </div>
+    <div class="mb-3">
+      <label for="senha" class="form-label">Sua Senha<strong class="text-danger">*</strong></label>
+      <input type="password" class="form-control" id="senha" name="senha" placeholder="*********" required>
+    </div>
+    <div class="mb-3 d-grid gap-2">
+      <button type="submit" class="btn btn-success"><b>Login</b></button>
+    </div>
+    <div class="text-center">
+      <small>Ainda não possui uma conta? <a href="/cadastro">Crie uma agora</a></small>
+    </div>
+  </form>
+</div>
