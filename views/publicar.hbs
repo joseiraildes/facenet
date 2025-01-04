@@ -1,0 +1,30 @@
+<div class="container p-4">
+  <div class="container p-4">
+    <h2>
+      Publicar
+    </h2>
+    <form action="/publicar" method="post">
+      <div class="mb-3">
+        <label for="titulo" class="form-label">Título<storng class="text-danger">*</storng></label>
+        <input type="text" class="form-control" id="titulo" name="titulo" placeholder="e.x de como aumentar suas vendas na Kiwify" required>
+      </div>
+      <div class="mb-3">
+        <label for="conteudo" class="form-label">Conteúdo<storng class="text-danger">*</storng></label>
+        <textarea class="form-control p-4" id="conteudo" name="conteudo" rows="3" style="height: 150px;" required></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="fonte" class="form-label">Fonte do arquivo</label>
+        <input type="url" name="fonte" id="fonte" class="form-control" placeholder="https://exemplo.com.br/noticia">
+      </div>
+      <div class="mb-1">
+        <small class="text-muted">
+          <strong class="text-danger">*</strong> Campos obrigatórios
+        </small>
+      </div>
+      <div class="mb-3 text-end">
+        <button type="reset" class="btn text-muted">Cancelar</button>
+        <button type="submit" class="btn btn-success">Publicar</button>
+      </div>
+    </form>
+  </div>
+</div>
