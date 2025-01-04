@@ -27,7 +27,7 @@ app.get("/", async(req, res)=>{
     if(user===null){
       res.redirect("/login")
     }else{
-      res.render("home", { subtitle: "- Sua plataforma de notícias e conteudos relacionados á Tecnologia e Informação" })
+      res.render("home", { nomeMenu: user['nome'], subtitle: "- Sua plataforma de notícias e conteudos relacionados á Tecnologia e Informação" })
     }
   }catch(error){
     res.status(500).send("INTERNAL SERVER ERROR")
@@ -43,6 +43,30 @@ app.get('/login', async(req, res)=>{
   if(user === null){
     res.render('login', { subtitle: "- Login" })
   }else{
+    res.redirect('/')
+  }
+})
+app.post('/login', async(req, res)=>{
+  const ip = await Ip()
+  const { email, senha } = await req.body
+  const user = await User.findOne({
+    where: {
+      email,
+      senha
+    }
+  })
+  if(user!== null){
+    res.render('login', { subtitle: "- Login", error: "Email ou senha inválidos!" })
+  }else{
+    const userUpdate = await User.update({
+      ip: ip.ip
+    },{
+      where: {
+        email,
+        senha
+      }
+    })
+    console.log(userUpdate)
     res.redirect('/')
   }
 })
@@ -86,7 +110,7 @@ app.post('/cadastro', async(req, res)=>{
     res.redirect('/')
   }else{
     const notify = `
-      <div class="alert" role="alert">
+      <div class="alert alert-danger" role="alert">
         Já existe um usuário com o nome <strong>${nome}</strong> ou email <strong>${email}</strong>. Por favor, tente novamente.
       </div>
     `
