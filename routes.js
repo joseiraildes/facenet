@@ -33,3 +33,6 @@ app.get("/", async(req, res)=>{
     res.status(500).send("INTERNAL SERVER ERROR")
   }
 })
+app.get('/login', async(req, res)=>{
+  res.render('login', { subtitle: "- Login" })
+})
