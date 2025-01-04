@@ -29,11 +29,11 @@
               <img src="iconProfile.png" alt="iconProfile" width="32" height="32" class="rounded-circle">
             </a>
             <ul class="dropdown-menu text-small">
-              <li><a class="dropdown-item" href="#">New project...</a></li>
-              <li><a class="dropdown-item" href="#">Settings</a></li>
-              <li><a class="dropdown-item" href="#">Profile</a></li>
+              <li><a href="/{{nomeMenu}}" class="dropdown-item">{{nomeMenu}}</a></li>
+              <li><a class="dropdown-item" href="/publicar">Novo Conteúdo</a></li>
+              <li><a class="dropdown-item" href="/editar/perfil">Editar perfil</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Sign out</a></li>
+              <li><a class="dropdown-item text-danger" href="/signout"><strong>Sair...</strong></a></li>
             </ul>
           </div>
         </div>
