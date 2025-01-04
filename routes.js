@@ -59,3 +59,40 @@ app.get("/cadastro", async(req, res)=>{
     res.redirect('/')
   }
 })
+app.post('/cadastro', async(req, res)=>{
+  const { nome, email, senha } = await req.body
+  const formatNome = nome.replace(' ', '').toLowerCase()
+  const ip = await Ip()
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+  const findUserExists = await User.findOne({
+    where: {
+      nome: formatNome,
+      email
+    }
+  })
+  if(findUserExists === null){
+    const newUser = await User.create({
+      nome: req.body.nome,
+      email: req.body.email,
+      senha: senha,
+      biografia: "Sou um novo usuário!",
+      ip: ip.ip
+    })
+    console.log(newUser)
+    res.redirect('/')
+  }else{
+    const notify = `
+      <div class="alert" role="alert">
+        Já existe um usuário com o nome <strong>${nome}</strong> ou email <strong>${email}</strong>. Por favor, tente novamente.
+      </div>
+    `
+    res.render('cadastro', {
+      subtitle: "- Cadastrar novo usuario",
+      notify
+    })
+  }
+})
