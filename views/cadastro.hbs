@@ -1,0 +1,30 @@
+<div class="container p-4">
+  <div class="container">
+    <h2>Cadastrar Novo Usuário</h2>
+    {{{notify}}}
+    <form action="/cadastro" method="post">
+      <div class="mb-3">
+        <label for="nome" class="form-label">Nome<strong class="text-danger">*</strong></label>
+        <input type="text" class="form-control" id="nome" name="nome" placeholder="n0mepubl1co" required>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email<strong class="text-danger">*</strong></label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="email@example.com" required>
+      </div>
+      <div class="mb-3">
+        <label for="senha" class="form-label">Senha<strong class="text-danger">*</strong></label>
+        <input type="password" class="form-control" id="senha" name="senha" placeholder="senha123" required>
+      </div>
+      <div class="mb-3 d-grid gap-2">
+        <button type="submit" class="btn btn-success"><b>Cadastrar</b></button>
+      </div>
+      <small class="text-muted">
+        <strong class="text-danger">*</strong> Campos obrigatórios. Senha deve conter pelo menos 8 caracteres.
+      </small>
+      <br>
+      <small>
+        Já possui uma conta? <a href="/login">Faça login</a>
+      </small>
+    </form>
+  </div>
+</div>
