@@ -48,6 +48,7 @@ app.get('/login', async(req, res)=>{
 })
 app.post('/login', async(req, res)=>{
   const ip = await Ip()
+  const mysql = await MySql()
   const { email, senha } = await req.body
   const user = await User.findOne({
     where: {
@@ -55,18 +56,17 @@ app.post('/login', async(req, res)=>{
       senha
     }
   })
-  if(user!== null){
-    res.render('login', { subtitle: "- Login", error: "Email ou senha inválidos!" })
+  if(user===null){
+    const error = `
+    <div class="alert alert-danger" role="alert">
+      Email ou senha inválidos!
+    </div>
+    `
+    res.render('login', { subtitle: "- Login", error })
+    console.error("Email ou senha Inválidos.")
   }else{
-    const userUpdate = await User.update({
-      ip: ip.ip
-    },{
-      where: {
-        email,
-        senha
-      }
-    })
-    console.log(userUpdate)
+    const [ update, rows ] = await mysql.query(`UPDATE users SET ip = '${ip.ip}' WHERE email = '${email}' AND senha = '${senha}'`)
+    console.log(update)
     res.redirect('/')
   }
 })
@@ -118,5 +118,18 @@ app.post('/cadastro', async(req, res)=>{
       subtitle: "- Cadastrar novo usuario",
       notify
     })
+  }
+})
+app.get('/publicar', async(req, res)=>{
+  const ip = await Ip()
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+  if(user === null){
+    res.redirect('/login')
+  }else{
+    res.render('publicar', { subtitle: "- Publicar novo conteúdo" })
   }
 })
