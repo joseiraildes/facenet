@@ -1,9 +1,9 @@
 <div class="container p-4">
   <form action="/login" method="post" class="container">
-    {{{notify}}}
     <h2>
       Login
     </h2>
+    {{{notify}}}
     <div class="mb-3">
       <label for="email" class="form-label">Seu Email<strong class="text-danger">*</strong></label>
       <input type="email" class="form-control" id="email" name="email" placeholder="exemplo@email.com" required>
@@ -15,8 +15,12 @@
     <div class="mb-3 d-grid gap-2">
       <button type="submit" class="btn btn-success"><b>Login</b></button>
     </div>
-    <div class="text-center">
-      <small>Ainda não possui uma conta? <a href="/cadastro">Crie uma agora</a></small>
-    </div>
+    <small class="text-muted">
+      <strong class="text-danger">*</strong> Campos obrigatórios. Senha deve conter pelo menos 8 caracteres.
+    </small>
+    <br>
+    <small>
+      Não possui uma conta? <a href="/cadastro">Cadastre-se</a>
+    </small>
   </form>
 </div>
