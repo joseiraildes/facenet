@@ -178,9 +178,9 @@ app.get("/@:nome", async(req, res)=>{
       }
     })
     if(user["nome"] === userFind["nome"]){
-      res.render("profile", { btn, nomeMenu: user['nome'] })
+      res.render("profile", { subtitle: `- ${nome}`, btn, nomeMenu: user['nome'] })
     }else{
-      res.render("profile", { nomeMenu: user['nome'] })
+      res.render("profile", { subtitle: `- ${nome}`, nomeMenu: user['nome'] })
     }
   }
 })
