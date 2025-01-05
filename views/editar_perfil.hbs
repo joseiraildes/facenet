@@ -1,0 +1,48 @@
+<div class="container">
+  {{#each user}}
+    <div class="mb-3">
+      <h2>Editar perfil</h2>
+    </div>
+    <form action="/editar/perfil" method="post">
+      <div class="mb-3">
+        <label for="nome" class="form-label">Nome<strong class="text-danger">*</strong></label>
+        <input type="text" class="form-control" id="nome" name="nome" value="{{nome}}" readonly>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email<strong class="text-danger">*</strong></label>
+        <input type="email" class="form-control" id="email" name="email" value="{{email}}" readonly>
+      </div>
+      <div class="mb-3">
+        <div class="mb-3">
+        <label for="senha" class="form-label">Senha<strong class="text-danger">*</strong></label>
+        <div style="display: flex; align-items: center;">
+          <input type="password" class="form-control" id="senha" name="senha" value="{{senha}}" readonly style="flex: 1;">
+          <button type="button" id="togglePassword" class="btn btn-outline-secondary">
+            Mostrar Senha
+          </button>
+        </div>
+        <ul>
+          <li>
+            <small class="text-muted">
+              <a href="/reset_password">Alterar senha</a>
+            </small>
+          </li>
+        </ul>
+      </div>
+      <div class="mb-3">
+        <label for="biografia" class="form-label">Biografia</label>
+        <textarea name="biografia" id="biografia" class="form-control p-4" style="height: 150px;">{{{biografia}}}</textarea>
+      </div>
+    </form>
+  {{/each}}
+</div>
+
+<script>
+  const togglePassword = document.getElementById('togglePassword');
+  togglePassword.addEventListener('click', () => {
+    const passwordInput = document.getElementById('senha');
+    passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+    togglePassword.textContent = passwordInput.type === 'password' ? 'Mostrar Senha' : 'Esconder Senha';
+  })
+
+</script>
