@@ -1,2 +1,31 @@
-{{{btn}}}
-<h1>Olá mundo</h1>
+<div class="container">
+  {{#each user}}
+    <div class="mb-3">
+      <div class="d-flex justify-content-between">
+        <h2>
+          {{nome}}
+        </h2>
+      </div>
+      
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a href="/@{{nome}}" class="nav-link text-dark active">Perfil</a>
+        </li>
+        <li class="nav-item">
+          <a href="/@{{nome}}/contents" class="nav-link text-dark">Conteúdos</a>
+        </li>
+        <li class="nav-item">
+          <a href="/@{{nome}}/comments" class="nav-link text-dark">Seguindo</a>
+        </li>
+      </ul>
+    </div>
+    <div class="card p-4 mb-3">
+      <div class="card-text">
+        {{{biografia}}}
+      </div>
+    </div>
+  {{/each}}
+  <div class="text-center">
+    {{{btn}}}
+  </div>
+</div>
