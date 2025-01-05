@@ -159,7 +159,11 @@ app.get("/@:nome", async(req, res)=>{
   const nome = await req.params.nome
   const ip = await Ip()
   const mysql = await MySql()
-
+  const findUser = await User.findOne({
+    where: {
+      nome: nome
+    }
+  })
   const user = await User.findOne({
     where: {
       ip: ip.ip
@@ -178,9 +182,9 @@ app.get("/@:nome", async(req, res)=>{
       }
     })
     if(user["nome"] === userFind["nome"]){
-      res.render("profile", { subtitle: `- ${nome}`, btn, nomeMenu: user['nome'] })
+      res.render("profile", { subtitle: `- ${nome}`, btn, nomeMenu: user['nome'], user: findUser })
     }else{
-      res.render("profile", { subtitle: `- ${nome}`, nomeMenu: user['nome'] })
+      res.render("profile", { subtitle: `- ${nome}`, nomeMenu: user['nome'], user: findUser })
     }
   }
 })
