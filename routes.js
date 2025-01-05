@@ -155,3 +155,32 @@ app.post('/publicar', async(req, res)=>{
     res.redirect(`/@${newPost["nome"]}/${newPost["id"]}`)
   }
 })
+app.get("/@:nome", async(req, res)=>{
+  const nome = await req.params.nome
+  const ip = await Ip()
+  const mysql = await MySql()
+
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+  
+  if(user === null){
+    res.redirect("/login")
+  }else{
+    const btn = `
+      <button type="button" class="btn btn-sm btn-secondary">Editar perfil</button>
+    `
+    const userFind = await User.findOne({
+      where: {
+        nome
+      }
+    })
+    if(user["nome"] === userFind["nome"]){
+      res.render("profile", { btn, nomeMenu: user['nome'] })
+    }else{
+      res.render("profile", { nomeMenu: user['nome'] })
+    }
+  }
+})
