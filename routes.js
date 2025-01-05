@@ -5,6 +5,7 @@ const path = require("path")
 const Ip = require('./api/ip.js')
 const MySql = require('./mysql/connection.js')
 const User = require('./models/User.js')
+const Post = require('./models/Post.js')
 
 
 app.engine("hbs", hbs.engine({ extname: "hbs" }))
@@ -131,5 +132,26 @@ app.get('/publicar', async(req, res)=>{
     res.redirect('/login')
   }else{
     res.render('publicar', { subtitle: "- Publicar novo conteúdo" })
+  }
+})
+app.post('/publicar', async(req, res)=>{
+  const { titulo, conteudo, fonte } = await req.body
+  const ip = await Ip()
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+  if(user === null){
+    res.redirect('/login')
+  }else{
+    const newPost = await Post.create({
+      titulo,
+      conteudo,
+      fonte,
+      nome: user["nome"]
+    })
+    console.log(newPost)
+    res.redirect(`/@${newPost["nome"]}/${newPost["id"]}`)
   }
 })
