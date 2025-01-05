@@ -7,11 +7,11 @@ const MySql = require('./mysql/connection.js')
 const User = require('./models/User.js')
 const Post = require('./models/Post.js')
 
+app.use(express.static(path.join(__dirname + "/images/")))
 
 app.engine("hbs", hbs.engine({ extname: "hbs" }))
 app.set("view engine", "hbs")
 app.set("views", path.join(__dirname + "/views"))
-app.use(express.static(path.join(__dirname + "/images/")))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
@@ -192,5 +192,20 @@ app.get("/@:nome", async(req, res)=>{
     }else{
       res.render("profile", { subtitle: `- ${nome}`, nomeMenu: user['nome'], user: findUser })
     }
+  }
+})
+app.get('/editar/perfil', async(req, res)=>{
+  const ip = await Ip()
+  const mysql = await MySql()
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+  if(user === null){
+    res.redirect('/login')
+  }else{
+    const [ editProfile, rows ] = await mysql.query(`SELECT * FROM users WHERE ip = '${ip.ip}'`)
+    res.render('editar_perfil', { subtitle: "- Editar meu Perfil", user: editProfile, nomeMenu: user['nome'] })
   }
 })
