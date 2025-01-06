@@ -267,6 +267,7 @@ app.get('/@:nome/conteudos', async(req, res)=>{
     res.render('conteudos', { subtitle: `- ${nome}`, nomeMenu: user['nome'], posts: selectPosts, user: findUser })
   }
 })
+
 app.get('/@:nome/:id', async(req, res)=>{
   const ip = await Ip()
   const mysql = await MySql()
@@ -290,8 +291,10 @@ app.get('/@:nome/:id', async(req, res)=>{
       SELECT *
       FROM comentarios
       WHERE post_id = ${id}
-      
+      ORDER BY id DESC
+
     `)
+
     res.render('post', { subtitle: `- ${post[0]['titulo']}`, nomeMenu: user['nome'], post, comments })
   }
 })
@@ -317,6 +320,31 @@ app.post('/@:nome/:id/comentar', async(req, res)=>{
     })
     console.log(newComment)
 
+    res.redirect(`/@${nome}/${id}`)
+  }
+})
+app.post('/@:nome/:id/like', async(req, res)=>{
+  const ip = await Ip()
+  const mysql = await MySql()
+  const { nome, id } = await req.params
+
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+
+  if(user === null){
+    res.redirect('/login')
+  }else{
+    const [ like, rows ] = await mysql.query(`
+      UPDATE posts
+      SET likes = likes + 1
+      WHERE nome = '${nome}'
+      AND id = ${id}
+      LIMIT 1
+    `)
+    console.log(like)
     res.redirect(`/@${nome}/${id}`)
   }
 })
