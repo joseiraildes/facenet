@@ -1,0 +1,46 @@
+<div class="container p-4">
+  {{#each post}}
+    <div class="card mb-3">
+      <div class="card-header d-flex justify-content-between text-muted">
+        <a href="/@{{nome}}">{{nome}}</a>
+        <small>
+          {{post_like}}
+        </small>
+      </div>
+      <div class="card-body p-4">
+        <h2>
+          {{{titulo}}}
+        </h2>
+        <div class="card-text">
+          {{{conteudo}}}
+        </div>
+
+        {{#if fonte}}
+          <div>
+            <h4 class="text-muted">
+              Fontes
+            </h4>
+            <ul>
+              <li>
+                <a href="{{fonte}}">{{fonte}}</a>
+              </li>
+            </ul>
+          </div>
+          
+        {{/if}}
+      </div>
+      <div class="card-footer d-flex justify-content-between">
+        <small class="text-muted">
+          {{createdAt}}
+        </small>
+        <form action="/@{{nome}}/{{id}}/like" method="post"> 
+          <button class="btn btn-danger">
+            Gostei
+            <span class="badge bg-danger">{{post_like}}</span>
+          </button>
+        </form>
+
+      </div>
+    </div>
+  {{/each}}
+</div>
