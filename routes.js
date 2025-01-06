@@ -266,3 +266,25 @@ app.get('/@:nome/conteudos', async(req, res)=>{
     res.render('conteudos', { subtitle: `- ${nome}`, nomeMenu: user['nome'], posts: selectPosts, user: findUser })
   }
 })
+app.get('/@:nome/:id', async(req, res)=>{
+  const ip = await Ip()
+  const mysql = await MySql()
+  const { nome, id } = await req.params
+
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+
+  if(user === null){
+    res.redirect('/login')
+  }else{
+    const [ post, rows ] = await mysql.query(`
+      SELECT *
+      FROM posts
+      WHERE nome = '${nome}' AND id = ${id}
+    `)
+    res.render('post', { subtitle: `- ${post[0]['titulo']}`, nomeMenu: user['nome'], post })
+  }
+})
