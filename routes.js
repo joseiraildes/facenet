@@ -7,6 +7,7 @@ const MySql = require('./mysql/connection.js')
 const User = require('./models/User.js')
 const Post = require('./models/Post.js')
 const { marked } = require('marked')
+const Comentario = require('./models/Comentario.js')
 
 app.use(express.static(path.join(__dirname + "/images/")))
 
@@ -286,5 +287,30 @@ app.get('/@:nome/:id', async(req, res)=>{
       WHERE nome = '${nome}' AND id = ${id}
     `)
     res.render('post', { subtitle: `- ${post[0]['titulo']}`, nomeMenu: user['nome'], post })
+  }
+})
+app.post('/@:nome/:id/comentar', async(req, res)=>{
+  const ip = await Ip()
+  const mysql = await MySql()
+  const { nome, id } = await req.params
+  const { comentario } = req.body
+
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+
+  if(user===null){
+    res.redirect('/login')
+  }else{
+    const newComment = await Comentario.create({
+      post_id: id,
+      nome: user['nome'],
+      comentario: marked(comentario)
+    })
+    console.log(newComment)
+
+    res.redirect(`/@${nome}/${id}`)
   }
 })
