@@ -6,6 +6,7 @@ const Ip = require('./api/ip.js')
 const MySql = require('./mysql/connection.js')
 const User = require('./models/User.js')
 const Post = require('./models/Post.js')
+const { marked } = require('marked')
 
 app.use(express.static(path.join(__dirname + "/images/")))
 
@@ -207,5 +208,34 @@ app.get('/editar/perfil', async(req, res)=>{
   }else{
     const [ editProfile, rows ] = await mysql.query(`SELECT * FROM users WHERE ip = '${ip.ip}'`)
     res.render('editar_perfil', { subtitle: "- Editar meu Perfil", user: editProfile, nomeMenu: user['nome'] })
+  }
+})
+app.post('/editar/perfil', async(req, res)=>{
+  const { nome, email, senha, biografia } = await req.body
+  const ip = await Ip()
+  const mysql = await MySql()
+
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+
+  if(user === null){
+    res.redirect('/login')
+  }else{
+    const update = await User.update({
+      nome,
+      email,
+      senha,
+      biografia: marked(biografia)
+    },{
+      where: {
+        ip: ip.ip
+      }
+    }
+    )
+    console.log(update)
+    res.redirect(`/@${nome}`)
   }
 })
