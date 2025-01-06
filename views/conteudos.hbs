@@ -1,0 +1,40 @@
+<div class="container">
+  {{#each user}}
+    <div class="mb-3 d-flex justify-content-between">
+      <h2>
+        {{nome}}
+      </h2>
+    </div>
+    
+    <ul class="nav nav-tabs mb-1">
+      <li class="nav-item">
+        <a href="/user/{{nome}}" class="nav-link link-body-emphasis" aria-current="page">Perfil</a>
+      </li>
+      <li class="nav-item">
+        <a href="/user/{{nome}}/conteudos" class="nav-link link-body-emphasis active">Publicações</a>
+      </li>
+      <li class="nav-item">
+        <a href="/user/{{nome}}/comentarios" class="nav-link link-body-emphasis">Comentarios</a>
+      </li>
+    </ul>
+  {{/each}}
+  <br>
+  {{#each posts}}
+    <div class="card mb-3">
+      <div class="card-header d-flex justify-content-between">
+        <span class="mb-0">
+          <a href="/user/{{nome}}" class="text-secondary">{{nome}}</a>
+        </span>
+        <span class="text-muted">
+          {{post_like}}
+        </span>
+      </div>
+      <div class="card-body">
+        <a href="/post/{{nome}}/{{id}}">{{titulo}}</a>
+        <br>
+        {{{createdAt}}}
+      </div>
+    </div>
+  </div>
+  {{/each}}
+</div>
