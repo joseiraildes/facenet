@@ -286,7 +286,13 @@ app.get('/@:nome/:id', async(req, res)=>{
       FROM posts
       WHERE nome = '${nome}' AND id = ${id}
     `)
-    res.render('post', { subtitle: `- ${post[0]['titulo']}`, nomeMenu: user['nome'], post })
+    const [ comments, rowsCo ] = await mysql.query(`
+      SELECT *
+      FROM comentarios
+      WHERE post_id = ${id}
+      
+    `)
+    res.render('post', { subtitle: `- ${post[0]['titulo']}`, nomeMenu: user['nome'], post, comments })
   }
 })
 app.post('/@:nome/:id/comentar', async(req, res)=>{
