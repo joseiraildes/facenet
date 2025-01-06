@@ -1,4 +1,4 @@
-<div class="container p-4">
+<div class="container">
   {{#each post}}
     <div class="card mb-3">
       <div class="card-header d-flex justify-content-between text-muted">
@@ -74,3 +74,21 @@
     </div>
   {{/each}}
 </div>
+
+{{#each comments}}
+  <div class="container p-4">
+    <div class="card">
+      <div class="card-header text-muted d-flex justify-content-between">
+        <a href="/@{{nome}}">{{nome}}</a>
+        <small>
+          <small>
+            {{createdAt}}
+          </small>
+        </small>
+      </div>
+      <div class="card-body">
+        {{{comentario}}}
+      </div>
+    </div>
+  </div>
+{{/each}}
