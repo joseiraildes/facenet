@@ -25,3 +25,4 @@ const Comentario = db.define("comentarios", {
     allowNull: false
   }
 })
+module.exports = Comentario
