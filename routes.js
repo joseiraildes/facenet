@@ -148,7 +148,7 @@ app.post('/publicar', async(req, res)=>{
   }else{
     const newPost = await Post.create({
       titulo,
-      conteudo,
+      conteudo: marked(conteudo),
       fonte,
       nome: user["nome"]
     })
@@ -237,5 +237,32 @@ app.post('/editar/perfil', async(req, res)=>{
     )
     console.log(update)
     res.redirect(`/@${nome}`)
+  }
+})
+app.get('/@:nome/conteudos', async(req, res)=>{
+  const ip = await Ip()
+  const mysql = await MySql()
+  const { nome } = await req.params
+  
+  const user = await User.findOne({
+    where: {
+      ip: ip.ip
+    }
+  })
+
+  if(user === null){
+    res.redirect('/login')
+  }else{
+    const [ findUser, ROWS ] = await mysql.query(`
+      SELECT *
+      FROM users
+      WHERE nome = '${nome}'
+    `)
+    const [ selectPosts, rows ] = await mysql.query(`
+      SELECT *
+      FROM posts
+      WHERE nome = '${nome}'
+    `)
+    res.render('conteudos', { subtitle: `- ${nome}`, nomeMenu: user['nome'], posts: selectPosts, user: findUser })
   }
 })
