@@ -30,9 +30,15 @@ app.get("/", async(req, res)=>{
     if(user===null){
       res.redirect("/login")
     }else{
-      res.render("home", { nomeMenu: user['nome'], subtitle: "- Sua plataforma de notícias e conteudos relacionados á Tecnologia e Informação" })
+      const [ posts, rows ] = await mysql.query(`
+        SELECT *
+        FROM posts
+        ORDER BY post_like DESC
+      `)
+      res.render("home", { nomeMenu: user['nome'], subtitle: "- Sua plataforma de notícias e conteudos relacionados á Tecnologia e Informação", posts })
     }
   }catch(error){
+    console.log(error)
     res.status(500).send("INTERNAL SERVER ERROR")
   }
 })
@@ -339,10 +345,9 @@ app.post('/@:nome/:id/like', async(req, res)=>{
   }else{
     const [ like, rows ] = await mysql.query(`
       UPDATE posts
-      SET likes = likes + 1
+      SET post_like = post_like + 1
       WHERE nome = '${nome}'
       AND id = ${id}
-      LIMIT 1
     `)
     console.log(like)
     res.redirect(`/@${nome}/${id}`)
