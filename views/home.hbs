@@ -1,1 +1,17 @@
-{{!-- <h1>Hello World!!</h1> --}}
+{{#each posts}}
+  <div class="container p-3">
+    <div class="card mb-3">
+      <div class="card-header d-flex justify-content-between text-muted">
+        <a href="/@{{nome}}" class="text-muted">{{nome}}</a>
+        <span>
+          {{post_like}}
+        </span>
+      </div>
+      <div class="card-body">
+        <a href="/@{{nome}}/{{id}}">{{{titulo}}}</a>
+        <br>
+        {{createdAt}}
+      </div>
+    </div>
+  </div>
+{{/each}}
